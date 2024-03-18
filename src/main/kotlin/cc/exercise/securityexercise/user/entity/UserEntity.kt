@@ -4,13 +4,13 @@ import jakarta.persistence.*
 
 @Entity
 @Table(name = "user")
-class User {
+class UserEntity {
     @Id
     @Column(name = "user_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var userId: Long ?= null
 
-    @Column(name = "user_name")
+    @Column(name = "user_name", unique = true)
     var userName: String ?= null
 
     @Column(name = "password")

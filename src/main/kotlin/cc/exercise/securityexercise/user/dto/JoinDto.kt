@@ -1,6 +1,6 @@
 package cc.exercise.securityexercise.user.dto
 
-data class SignUpDto(
+data class JoinDto(
     val userName:String,
     val passWord: String
 )

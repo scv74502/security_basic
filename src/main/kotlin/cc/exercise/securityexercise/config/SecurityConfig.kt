@@ -26,22 +26,31 @@ class SecurityConfig {
         http
             .authorizeHttpRequests { auth ->
                 auth
-                    .requestMatchers("/", "/signUp","/signUpProc","/signIn", "/signInProc").permitAll()
+                    .requestMatchers("/", "/login","/loginProc","/join", "/joinProc").permitAll()
                     .requestMatchers("/admin").hasRole("ADMIN")
                     .requestMatchers("/my/**").hasAnyRole("ADMIN", "USER")
                     .anyRequest().authenticated()
             }
 
         http
-            .formLogin { auth ->
-                auth.loginPage("/signinProc")
+            .formLogin { auth -> auth.loginPage("/login")
+                .loginProcessingUrl("/loginProc")
                     .permitAll()
             }
 
+        // 로그아웃 설정
         http
-            .csrf{auth ->
-                auth.disable()
-            }
+            .logout { auth -> auth.logoutUrl("/logout")
+                .logoutSuccessUrl("/")}
+
+        http
+//            .csrf{auth -> auth.disable()}   // csrf disable configuration
+
+        http
+            .sessionManagement { auth -> auth   // 세션 설정 관리하는 메소드
+                .sessionFixation().changeSessionId()    // 로그인 시 동일한 세션에 대한 id 변경
+                .maximumSessions(1) // 하나의 아이디에 대한 다중 로그인 허용 개수
+                .maxSessionsPreventsLogin(true)}
 
         return http.build()
     }
