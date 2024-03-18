@@ -2,6 +2,7 @@ package cc.exercise.securityexercise.config
 
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.security.config.Customizer
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
@@ -32,11 +33,14 @@ class SecurityConfig {
                     .anyRequest().authenticated()
             }
 
-        http
-            .formLogin { auth -> auth.loginPage("/login")
-                .loginProcessingUrl("/loginProc")
-                    .permitAll()
-            }
+//        http
+//            .formLogin { auth -> auth.loginPage("/login")
+//                .loginProcessingUrl("/loginProc")
+//                    .permitAll()
+//            }
+
+        http.
+            httpBasic(Customizer.withDefaults())
 
         // 로그아웃 설정
         http
